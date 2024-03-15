@@ -1,35 +1,29 @@
 const {Sequelize,DataTypes}=require("sequelize")
 const db=require("..//config/db")
 
-const user=db.define("User",{
+const otp=db.define("Otp",{
     id:{
         type:DataTypes.INTEGER,
         autoIncrement:true,
         allowNull:false,
         primaryKey:true,
-        
     },
-    name:{
+    userId:{
         type:DataTypes.STRING,
         allowNull:false,
-        // unique:true,
-
     },
-    email:{
+    otp:{
         type:DataTypes.STRING,
         allowNull:false,
-        // unique:true,
-
     },
-    password:{
-        type:DataTypes.STRING,
+    createdAt:{
+        type:DataTypes.DATE,
         allowNull:false,
-        // unique:true,
-
     },
-    verified:{
-        type:DataTypes.BOOLEAN,
-        defaultValue:false,
+    expiredAt:{
+        type:DataTypes.DATE,
+        allowNull:false,
     }
+
 })
-module.exports=user
+module.exports=otp
