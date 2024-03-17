@@ -64,6 +64,7 @@ const otpVerification = async (req, res) => {
     }
 
     const otpSchema = await Otp.findAll({ where: { userId: id } });
+    
     if (otpSchema.length == 0) {
       return res.status(401).send("user not found");
     }
@@ -79,6 +80,7 @@ const otpVerification = async (req, res) => {
       } else {
         await Otp.destroy({ where: { userId: id } });
         await User.update({ verified: true }, { where: { id: id } });
+        let user=await User.findByPk(id)
         const token = newToken(user);
 
         return res.status(200).send({
