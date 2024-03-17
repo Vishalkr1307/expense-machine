@@ -11,7 +11,7 @@ router.post("/profile",userProfile)
 router.post("/otpverification/:id",otpSchema(),otpVerification)
 router.post("/resendotp/:id",resendOtp)
 router.post("/forgetpassword",forgetPassword)
-router.post("/forgetpassword/resetpassword/:id",resetPassword)
+router.post("/forgetpassword/resetpassword/:id",passwordChain(),resetPassword)
 
 
 

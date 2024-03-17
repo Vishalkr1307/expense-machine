@@ -1,5 +1,6 @@
 const {Sequelize,DataTypes}=require("sequelize")
 const db=require("../config/db")
+const User=require("./user")
 const task=db.define("Task",{
     id:{
         type:DataTypes.INTEGER,
@@ -23,5 +24,7 @@ const task=db.define("Task",{
         }
     }
 })
+User.hasMany(task)
+task.belongsTo(User)
 
 module.exports=task

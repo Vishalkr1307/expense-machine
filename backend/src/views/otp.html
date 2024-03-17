@@ -13,7 +13,7 @@
   </head>
   <body>
     <header></header>
-    <main class="d-flex mt-5 justify-content-center align-items-center">
+    <main class="d-flex flex-column  mt-5 justify-content-center align-items-center">
       <form action="" class="w-25">
         <h1 class="text-center">otp Verification</h1>
         <div class="d-flex">
@@ -46,10 +46,14 @@
             class="m-2 w-25 text-center form-control rounded"
           />
         </div>
+        
         <div>
-          <button class="btn btn-primary w-100">Otp Verifya</button>
+          <button type="submit" class="btn btn-primary w-100">Otp Verifya</button>
         </div>
       </form>
+      <div class="mt-3 ">
+        <button id="resend" class="btn  btn-light  ">Resent It</button>
+      </div>
     </main>
   </body>
 </html>
@@ -69,6 +73,8 @@
   const urlParams = new URLSearchParams(window.location.search);
   const id = urlParams.get("id");
   let p = document.createElement("p");
+  const btn=document.getElementById("resend")
+  btn.addEventListener("click",handleResend)
   document.addEventListener("DOMContentLoaded", () => {
     fetch("navabar.html")
       .then((res) => res.text())
@@ -86,6 +92,7 @@
     });
   });
   const formData = document.querySelector("form");
+  
   formData.addEventListener("submit", handleFormat);
   function handleFormat(event) {
     event.preventDefault();
@@ -105,7 +112,13 @@
           p.textContent = res.data.status;
           p.setAttribute("class", "alert alert-success");
           p.setAttribute("role", "alert");
-          window.location.href="home.html"
+          if(document.referrer.includes("login.html")){
+
+            window.location.href="home.html"
+          }
+          else if(document.referrer.includes("forget.html")){
+            window.location.href=`resetpassword.html?id=${id}`
+          }
         }
       })
       .catch((err) => {
@@ -114,5 +127,15 @@
         p.setAttribute("role", "alert");
       });
     formData.insertBefore(p, formData.children[0]);
+  }function handleResend(){
+     axios.post(`/auth/resendotp/${id}`).then((res)=>{
+        if(res.data){
+          alert(res.data.status)
+        }
+     })
   }
+
+
+
+  
 </script>

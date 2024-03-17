@@ -31,6 +31,9 @@
         </thead>
         <tbody></tbody>
       </table>
+      <nav aria-label="Page navigation example">
+        <ul class="pagination" id="pagination"></ul>
+      </nav>
     </main>
 
     <script
@@ -56,46 +59,55 @@
       const table = document.querySelector("table tbody");
       const token = localStorage.getItem("token");
       const showPara = document.createElement("p");
+      const pagination = document.getElementById("pagination");
+      let perPageItem = 5;
+      let page;
+      let currentPage = 1;
 
-      axios
-        .get("/task/getTask")
-        .then((res) => {
-          res.data.task.forEach((item, ind) => {
-            const tr = document.createElement("tr");
-            const th = document.createElement("th");
-            th.textContent = item.id;
-            const td1 = document.createElement("td");
-            td1.textContent = item.price; // Populate with actual data from server
-            const td2 = document.createElement("td");
-            td2.textContent = item.description; // Populate with actual data from server
-            const td3 = document.createElement("td");
-            td3.textContent = item.category; // Populate with actual data from server
-            const td4 = document.createElement("td");
-            const update = document.createElement("button");
-            update.textContent = "Update";
-            update.className = "btn btn-primary";
-            update.addEventListener("click", function () {
-              return handleUpdate(item);
+      getData(currentPage);
+      function getData(currentPage) {
+        axios
+          .get(`/task/getTask/?page=${currentPage}`)
+          .then((res) => {
+            isPage(res);
+            table.innerHTML=""
+            res.data.task.forEach((item, ind) => {
+              const tr = document.createElement("tr");
+              const th = document.createElement("th");
+              th.textContent = item.id;
+              const td1 = document.createElement("td");
+              td1.textContent = item.price; // Populate with actual data from server
+              const td2 = document.createElement("td");
+              td2.textContent = item.description; // Populate with actual data from server
+              const td3 = document.createElement("td");
+              td3.textContent = item.category; // Populate with actual data from server
+              const td4 = document.createElement("td");
+              const update = document.createElement("button");
+              update.textContent = "Update";
+              update.className = "btn btn-primary";
+              update.addEventListener("click", function () {
+                return handleUpdate(item);
+              });
+
+              td4.append(update);
+              const td5 = document.createElement("td");
+              const del = document.createElement("button");
+              del.textContent = "Delete";
+              del.className = "btn btn-danger";
+              del.addEventListener("click", function () {
+                return handleDelte(item.id);
+              });
+
+              td5.append(del);
+              th.setAttribute("scope", "row");
+              tr.append(th, td1, td2, td3, td4, td5);
+              table.append(tr);
             });
-
-            td4.append(update);
-            const td5 = document.createElement("td");
-            const del = document.createElement("button");
-            del.textContent = "Update";
-            del.className = "btn btn-danger";
-            del.addEventListener("click", function () {
-              return handleDelte(item.id);
-            });
-
-            td5.append(del);
-            th.setAttribute("scope", "row");
-            tr.append(th, td1, td2, td3, td4, td5);
-            table.append(tr);
+          })
+          .catch((err) => {
+            console.error("Error fetching data:", err);
           });
-        })
-        .catch((err) => {
-          console.error("Error fetching data:", err);
-        });
+      }
       function handleUpdate(item) {
         const modalContent = `
         <div class="modal" id="updateModal">
@@ -155,13 +167,14 @@
         updateForm.addEventListener("submit", (event) => {
           event.preventDefault();
           const formData = new FormData(updateForm);
-          console.log(formData);
+
           const updateData = {
             price: formData.get("price"),
             description: formData.get("description"),
             category: document.getElementById("category").value,
           };
           updateTask(item, updateData);
+          updateModal.hide();
         });
       }
       function updateTask(item, updateData) {
@@ -171,7 +184,8 @@
             showPara.textContent = res.data;
             showPara.setAttribute("class", "alert alert-success");
             showPara.setAttribute("role", "alert");
-            window.location.reload();
+            table.innerHTML = "";
+            getData();
           })
           .catch((err) => {
             alert(err.response.data);
@@ -188,7 +202,8 @@
             showPara.textContent = "Successfully deleted";
             showPara.setAttribute("class", "alert alert-success");
             showPara.setAttribute("role", "alert");
-            window.location.reload();
+            table.innerHTML = "";
+            getData();
           })
           .catch((err) => {
             showPara.textContent = err.response.data;
@@ -196,6 +211,47 @@
             showPara.setAttribute("role", "alert");
           });
       }
+
+      function isPage(res) {
+        let page = Math.ceil(res.data.totalItem / perPageItem);
+        let arry = new Array(page).fill("-1");
+        pagination.innerHTML=""
+        const prev = document.createElement("button");
+        prev.textContent = "Previous";
+        prev.setAttribute("class", "page-item page-link");
+        prev.addEventListener("click", () => handlePage("prev"));
+        pagination.appendChild(prev);
+        const next = document.createElement("button");
+        next.textContent = "Next";
+        next.setAttribute("class", "page-item page-link");
+        next.addEventListener("click", () => handlePage("next"));
+        arry.forEach((item, ind) => {
+          const data = document.createElement("button");
+          data.textContent = ind + 1;
+          data.setAttribute("class", "page-item page-link");
+          data.addEventListener("click", () => handlePage("num", ind + 1));
+          pagination.appendChild(data);
+        });
+        pagination.appendChild(next);
+      }
+      function handlePage(type, value) {
+        if (type === "prev") {
+          currentPage--;
+          if (currentPage <= 1) {
+            currentPage = 1;
+          }
+        } else if (type === "num") {
+          
+          currentPage = value;
+        } else if (type === "next") {
+          currentPage++;
+          if (currentPage > page) {
+            currentPage = page;
+          }
+        }
+        getData(currentPage)
+      }
+
       document.querySelector("h1").append(showPara);
     </script>
   </body>
