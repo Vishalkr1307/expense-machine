@@ -4,7 +4,7 @@ const { validationResult } = require("express-validator");
 const { formatOfError } = require("..//util/valadation");
 const bcrypt = require("bcrypt");
 const sentMail = require("..//util/mail");
-const { newToken } = require("..//util/token");
+const { newToken,verifyToken } = require("..//util/token");
 const user = require("..//module/user");
 
 const Register = async (req, res) => {
@@ -145,4 +145,17 @@ const resetPassword=async(req,res)=>{
   }
 }
 
-module.exports = { Register, Login, otpVerification, resendOtp,forgetPassword,resetPassword };
+const userProfile=async (req,res)=>{
+  try{
+
+    const user=await verifyToken(req.body.token)
+    return res.status(200).send(user)
+
+
+  }
+  catch(err){
+    return res.status(400).send("bad request");
+  }
+}
+
+module.exports = { Register, Login, otpVerification, resendOtp,forgetPassword,resetPassword,userProfile };

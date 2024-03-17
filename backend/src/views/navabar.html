@@ -58,9 +58,9 @@
               user detail
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Name</a></li>
-              <li><a class="dropdown-item" href="#">Email</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li><a class="dropdown-item" id="name" href="#">Name</a></li>
+              <li><a class="dropdown-item" id="email" href="#">Email</a></li>
+              <button class=" dropdown-item btn btn-primary">logout</button>
             </ul>
           </div>
       </nav>
@@ -72,3 +72,18 @@
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
   crossorigin="anonymous"
 ></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+   const token=localStorage.getItem("token")
+   console.log("token", token)
+    if(token){
+      axios.post("/auth/profile",{token}).then((res)=>{
+         let name=document.getElementById("name")
+         name.textContent=res.data.name
+         let email=document.getElementById("email")
+         email.textContent=res.data.email
+      }).catch((err)=>{
+        console.log(err.response.data)
+      });
+    }
+</script>
