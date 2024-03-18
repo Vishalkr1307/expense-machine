@@ -5,6 +5,7 @@ const { formatOfError } = require("..//util/valadation");
 const addTask = async (req, res) => {
   try {
     const user = req.user;
+    console.log(user);
     if (!user) {
       return res.status(401).send("User not found");
     }
@@ -14,7 +15,7 @@ const addTask = async (req, res) => {
       return res.status(401).send(formatOfError(error.array()).join(","));
     }
 
-    const task = await Task.create({ ...req.body, userId: user.id });
+    const task = await Task.create({ ...req.body, UserId: user.id });
 
     return res.status(200).send(task);
   } catch (err) {

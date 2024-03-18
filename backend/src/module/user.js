@@ -30,6 +30,10 @@ const user=db.define("User",{
     verified:{
         type:DataTypes.BOOLEAN,
         defaultValue:false,
+    },
+    isPremium:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:false,
     }
 })
 module.exports=user

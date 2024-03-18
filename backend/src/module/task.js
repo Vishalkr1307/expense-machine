@@ -24,7 +24,5 @@ const task=db.define("Task",{
         }
     }
 })
-User.hasMany(task)
-task.belongsTo(User)
 
 module.exports=task

@@ -157,5 +157,10 @@ const userProfile=async (req,res)=>{
     return res.status(400).send("bad request");
   }
 }
+const isPremiumProfile=async (req,res)=>{
+  let  user=await verifyToken(req.body.token)
+   let premiumUser=await User.findOne({where:{id:user.id}})
+   
+}
 
 module.exports = { Register, Login, otpVerification, resendOtp,forgetPassword,resetPassword,userProfile };
