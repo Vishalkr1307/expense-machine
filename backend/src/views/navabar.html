@@ -13,9 +13,11 @@
   </head>
   <body>
     <header>
-      <nav class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-between  ">
-        <div class=" d-flex justify-content-around     ">
-          <a href="home.html" class="navbar-brand">Logo</a>
+      <nav
+        class="navbar navbar-expand-lg bg-body-tertiary d-flex justify-content-between"
+      >
+        <div class="d-flex justify-content-around">
+          <a href="/" class="navbar-brand">Logo</a>
 
           <div>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -30,8 +32,8 @@
             </ul>
           </div>
         </div>
-        <div class="w-50 ">
-          <form class="d-flex  " role="search">
+        <div class="w-50">
+          <form class="d-flex" role="search">
             <input
               class="form-control me-2"
               type="search"
@@ -43,26 +45,36 @@
             </button>
           </form>
         </div>
-        <div>
+        <div id="navlogin">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="login.html">Login</a>
+              <a class="nav-link active" aria-current="page" href="login.html"
+                >Login</a
+              >
             </li>
             <li class="nav-item">
               <a class="nav-link" href="register.html">Register</a>
             </li>
           </ul>
         </div>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle rounded-5   " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-              user detail
+        <div class="dropdown px-4 m-lg-2">
+          <button
+            class="btn btn-secondary dropdown-toggle rounded-5"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            id="userdetail"
+          >
+            user detail
+          </button>
+          <ul class="dropdown-menu" id="profile">
+            <p class="dropdown-item" id="name">Name</p>
+            <p class="dropdown-item" id="email">Email</p>
+            <button id="logout" class="dropdown-item btn btn-primary">
+              logout
             </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" id="name" href="#">Name</a></li>
-              <li><a class="dropdown-item" id="email" href="#">Email</a></li>
-              <button class=" dropdown-item btn btn-primary">logout</button>
-            </ul>
-          </div>
+          </ul>
+        </div>
       </nav>
     </header>
   </body>
@@ -72,18 +84,14 @@
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
   crossorigin="anonymous"
 ></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js" integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script>
-   const token=localStorage.getItem("token")
-   console.log("token", token)
-    if(token){
-      axios.post("/auth/profile",{token}).then((res)=>{
-         let name=document.getElementById("name")
-         name.textContent=res.data.name
-         let email=document.getElementById("email")
-         email.textContent=res.data.email
-      }).catch((err)=>{
-        console.log(err.response.data)
-      });
-    }
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.8/axios.min.js"
+  integrity="sha512-PJa3oQSLWRB7wHZ7GQ/g+qyv6r4mbuhmiDb8BjSFZ8NZ2a42oTtAq5n0ucWAwcQDlikAtkub+tPVCw4np27WCg=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+></script>
+<script type="module">
+  import {initializeNavbar} from "./navbar.js"
+  initializeNavbar()
+  
 </script>

@@ -16,8 +16,11 @@ app.use("/auth",User)
 app.use("/task",Task)
 app.use('/payment',Payment)
 
+// app.get("/",(req,res)=>{
+//     res.sendFile(path.join(__dirname,'views' ,'home.html'))
+// })
 app.get("/",(req,res)=>{
-    res.sendFile(path.join(__dirname,'views' ,'home.html'))
+    res.sendFile(path.join(__dirname,'views' ,'navabar.html'))
 })
 
 

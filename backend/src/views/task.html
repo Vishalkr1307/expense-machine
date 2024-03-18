@@ -63,12 +63,16 @@
 ></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<script>
+<script type="module">
+    import {initializeNavbar} from "./navbar.js"
+ 
+
   document.addEventListener("DOMContentLoaded", function () {
     fetch("navabar.html")
       .then((response) => response.text())
       .then((data) => {
         document.querySelector("header").innerHTML = data;
+        initializeNavbar()
       });
   });
   // Create SVG element
@@ -87,15 +91,19 @@
   const formData = document.querySelector("form");
   const p = document.createElement("p");
   const token = localStorage.getItem("token");
-  const premiumToken=localStorage.getItem('premium')
 
   const premium = document.getElementById("premium");
- 
-  checkPrimeStatus()
-  async function checkPrimeStatus() {
-     if(premiumToken){
-        premium.style.display='none'
+  const rzpdeviceid=localStorage.getItem("rzp_device_id")
+  const rzpcheckoutanonid=localStorage.getItem("")
+  
+ document.addEventListener('DOMContentLoaded',checkPrimeStatus)
+  
+  function checkPrimeStatus() {
+     if(rzpcheckoutanonid || rzpdeviceid){
+      premium.style.display='none';
+        
      }
+     
    }
 
   formData.addEventListener("submit", handleForm);
@@ -150,9 +158,7 @@
               },
               { headers: { Authorization: `Bearer ${token}` } }
             );
-            alert(updateResponse.status);
-            localStorage.setItem("premium",updateResponse.token)
-            checkPrimeStatus()
+            alert("You are prime member");
             
           } catch (err) {
             console.log(err);
