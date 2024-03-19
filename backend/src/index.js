@@ -8,6 +8,7 @@ const app=express()
 const User=require("./route/user")
 const Task=require("./route/task")
 const Payment=require("./route/payment")
+const Premium=require("./route/premium")
 
 app.use(express.json())
 app.use(cors())
@@ -15,10 +16,9 @@ app.use(express.static(path.join(__dirname,'views')))
 app.use("/auth",User)
 app.use("/task",Task)
 app.use('/payment',Payment)
+app.use('/premium',Premium)
 
-// app.get("/",(req,res)=>{
-//     res.sendFile(path.join(__dirname,'views' ,'home.html'))
-// })
+
 app.get("/",(req,res)=>{
     res.sendFile(path.join(__dirname,'views' ,'navabar.html'))
 })

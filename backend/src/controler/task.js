@@ -25,14 +25,17 @@ const addTask = async (req, res) => {
 };
 const getTask = async (req, res) => {
   try {
+    const user=req.user
+    
     let page = +req.query.page || 1;
     let limit = +req.query.limit || 5;
     let search = +req.query.search;
     const skip = (page - 1) * limit;
     let task;
-    let totalItem = await Task.count();
+    let totalItem = await Task.count({where:{UserId:user.id}});
     if (!search) {
-      task = await Task.findAll({ offset: skip, limit: limit });
+      task = await Task.findAll({where:{UserId:user.id}, offset: skip, limit: limit });
+      
     } else {
       task = await Task.findAll({ where: { description: search } });
     }
@@ -59,7 +62,7 @@ const updateTask = async (req, res) => {
 
     return res.status(200).send("task updated successfully");
   } catch (err) {
-    console.log(err);
+    
     return res.status(500).send("Internal Server Error");
   }
 };

@@ -16,6 +16,11 @@ export function initializeNavbar() {
                         let userDetail = document.getElementById("userdetail")
                         userDetail.textContent = "You have premium Membership"
                         userDetail.setAttribute("class", 'btn btn-primary')
+                         document.getElementById("premiumButton").removeAttribute("disabled")
+                         
+                         document.getElementById("premiumButton").addEventListener("click",()=>{
+                            window.location.href='premium.html'
+                         })
                     }
 
                     let name = document.getElementById("name");

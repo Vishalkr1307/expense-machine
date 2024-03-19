@@ -96,15 +96,15 @@
   const rzpdeviceid=localStorage.getItem("rzp_device_id")
   const rzpcheckoutanonid=localStorage.getItem("")
   
- document.addEventListener('DOMContentLoaded',checkPrimeStatus)
+//  document.addEventListener('DOMContentLoaded',checkPrimeStatus)
   
-  function checkPrimeStatus() {
-     if(rzpcheckoutanonid || rzpdeviceid){
-      premium.style.display='none';
+  // function checkPrimeStatus() {
+  //    if(rzpcheckoutanonid || rzpdeviceid){
+  //     premium.style.display='none';
         
-     }
+  //    }
      
-   }
+  //  }
 
   formData.addEventListener("submit", handleForm);
   function handleForm(event) {

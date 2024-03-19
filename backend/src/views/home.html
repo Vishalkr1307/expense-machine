@@ -69,7 +69,12 @@
       getData(currentPage);
       function getData(currentPage) {
         axios
-          .get(`/task/getTask/?page=${currentPage}`)
+          .get(`/task/getTask/?page=${currentPage}`,{
+            headers:{
+              Authorization: `Bearer ${token}`,
+              
+            }
+          })
           .then((res) => {
             isPage(res);
             table.innerHTML=""
