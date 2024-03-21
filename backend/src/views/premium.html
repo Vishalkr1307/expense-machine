@@ -34,6 +34,7 @@
         <tbody></tbody>
       </table>
     </main>
+    <div id="premiumPage" class="w-100  "></div>
   </body>
 </html>
 <script
@@ -49,6 +50,8 @@
 ></script>
 <script type="module">
   import { initializeNavbar } from "./navbar.js";
+  import {premiumFeature } from "./premium.js";
+
   document.addEventListener("DOMContentLoaded", function () {
     fetch("navabar.html")
       .then((res) => res.text())
@@ -56,6 +59,12 @@
         document.querySelector("header").innerHTML = data;
         initializeNavbar();
       });
+
+      fetch("premiumFeatures.html").then((res)=>res.text()).then((data)=>{
+        document.getElementById("premiumPage").innerHTML = data;
+        premiumFeature()
+
+      })
   });
 
   getPrimeData();
@@ -94,6 +103,8 @@ function isSort(data) {
 function isShow(data) {
   document.querySelector("tbody").innerHTML=""
   data.forEach((item)=>{
+    console.log(item)
+    
     let tr=document.createElement("tr")
     let th=document.createElement("th")
     th.textContent=item.userId

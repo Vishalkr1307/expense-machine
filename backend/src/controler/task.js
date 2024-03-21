@@ -5,7 +5,7 @@ const { formatOfError } = require("..//util/valadation");
 const addTask = async (req, res) => {
   try {
     const user = req.user;
-    console.log(user);
+    
     if (!user) {
       return res.status(401).send("User not found");
     }
